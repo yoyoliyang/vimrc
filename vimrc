@@ -17,6 +17,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
 Plug 'airblade/vim-gitgutter'
 Plug 'ervandew/supertab'
+Plug 'majutsushi/tagbar'
 Plug 'Chiel92/vim-autoformat'
 Plug 'ycm-core/YouCompleteMe'
 " 添加注释插件,默认快捷键为<leader>+cc/cu
@@ -74,16 +75,24 @@ set autoindent   " always set autoindenting on
 endif " has("autocmd")
 "END 记录光标位置
 
+
+" split navigations 分屏幕快捷键
+nnoremap <C-h> :split<return>
+nnoremap <C-g> :vsplit<return>
 " 调整分割窗口大小快捷键
-" nmap w= :resize +3<CR>
-" nmap w- :resize -3<CR>
-" nmap w, :vertical resize +3<CR>
-" nmap w. :vertical resize -3<CR>
+nmap <leader>0 :resize +3<CR>
+nmap <leader>9 :resize -3<CR>
+nmap <leader>2 :vertical resize +3<CR>
+nmap <leader>1 :vertical resize -3<CR>
 
 " 支持鼠标滚屏
 set mouse=a
 
-" 定义ycm触发器(2个字母后自动提示)
+" 保存\退出文件快捷键
+nnoremap <C-s> :w<return>
+nnoremap <C-q> :q<return>
+
+" 定义python ycm触发器(2个字母后自动提示系统自带函数等)
 let g:ycm_semantic_triggers =  {
 	\ 'python':['->', '.' , 're!\w{1}'],
 	\ 'go':['->', '.' , 're!\w{1}'],
@@ -93,11 +102,8 @@ let g:ycm_semantic_triggers =  {
 """ Hilight search and set numbers //搜索高亮设置
 set hlsearch
 highlight Search guibg=#af005f ctermbg=125
-" split navigations 分屏幕快捷键
-nnoremap <C-h> :split<return>
-nnoremap <C-g> :vsplit<return>
 """" 搜索后取消高亮快捷键
-nnoremap <esc> :noh<return>
+nnoremap <leader>n :noh<return>
 set number
 
 " 注释插件配置
@@ -155,6 +161,11 @@ set ignorecase
 nmap <F8> :TagbarToggle<CR>
 " python save and run
 autocmd FileType python nnoremap <buffer> <F5> <Esc>:w<cr>:!python3 %<cr>
+" go run for dev
+autocmd FileType go nnoremap <buffer> <F5> <Esc>:w<cr>:GoRun %<cr>
+" go format indent缩进配置
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
+
 
 let g:SuperTabDefaultCompletionType = "context"
 
@@ -169,7 +180,32 @@ let g:autoformat_remove_trailing_spaces = 0
 set cursorline
 set cursorcolumn
 
-" 插入模式和普通模式光标样式修改
+" 插入模式和普通模式光标样式修改for urxvt
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+
+" 光标位置相同单词高亮设置//
+" https://vi.stackexchange.com/questions/84/how-can-i-copy-text-to-the-system-clipboard-from-vim
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+" Type z/ to toggle highlighting on/off.
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+    let @/ = ''
+    if exists('#auto_highlight')
+        au! auto_highlight
+        augroup! auto_highlight
+        setl updatetime=400
+        echo 'Highlight current word: off'
+        return 0
+    else
+        augroup auto_highlight
+            au!
+            au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+        augroup end
+        setl updatetime=500
+        echo 'Highlight current word: ON'
+        return 1
+    endif
+endfunction
