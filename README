@@ -1,22 +1,25 @@
 我的vim配置文件(for golang and python dev)
 详情看内部注释
 
+vim目录为debian10编译的二进制,prefix目录/opt
+
+or
+
 building vim from soure(debian)：
 
-```shell
-sudo apt install libncurses5-dev libgnome2-dev libgnomeui-dev \
-libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
+```sh
+sudo apt install libncurses5-dev \
+libgtk2.0-dev libatk1.0-dev \
 libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
 python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git
 ```
 
-```shell
+```sh
 git clone https://github.com/vim/vim.git
 
 cd vim
 
-./configure --with-features=huge \
-            --enable-multibyte \
+./configure --enable-multibyte \
             --enable-rubyinterp=yes \
             --enable-python3interp=yes \
             --with-python3-config-dir=$(python3-config --configdir) \
@@ -24,5 +27,4 @@ cd vim
             --enable-luainterp=yes \
             --enable-cscope \
             --prefix=/opt
-
 ```
