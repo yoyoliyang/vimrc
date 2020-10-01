@@ -5,7 +5,7 @@ vim目录为debian10编译的二进制,prefix目录/opt
 
 or
 
-building vim from soure(debian)：
+building vim from source(debian)：
 
 ```sh
 sudo apt install libncurses5-dev \
