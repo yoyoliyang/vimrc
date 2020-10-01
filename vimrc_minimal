@@ -1,6 +1,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'ycm-core/YouCompleteMe'
+Plug 'flazz/vim-colorschemes'
 call plug#end()
 
 
@@ -44,9 +45,14 @@ let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
+" theme
+colorscheme codedark
+
+
 " fix backspace not working
 set backspace=2
 
 " etc
 set number
 set ignorecase
+set tabstop=4
