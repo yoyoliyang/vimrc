@@ -2,6 +2,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'ycm-core/YouCompleteMe'
 Plug 'flazz/vim-colorschemes'
+Plug 'vim-airline/vim-airline'
 call plug#end()
 
 
