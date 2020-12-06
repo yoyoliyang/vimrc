@@ -2,9 +2,12 @@ call plug#begin('~/.vim/plugged')
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'ycm-core/YouCompleteMe'
 Plug 'tomasiser/vim-code-dark'
-Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline'
 Plug 'dense-analysis/ale'
 Plug 'scrooloose/nerdtree'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+
 call plug#end()
 
 
@@ -12,6 +15,8 @@ call plug#end()
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeIgnore=['\.pyc$', '\~$']
 let g:nerdtree_tabs_open_on_cosole_startup = 0
+let NERDTreeMapOpenInTab='<ENTER>'
+
 
 
 " 记录光标位置(返回上次光标位置)
@@ -58,17 +63,6 @@ let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 " theme
 colorscheme codedark
 
-" airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-" 缓冲区文件切换Switching between buffers
-" Set commands to switching between buffers
-:nnoremap <Tab> :bnext!<CR>
-:nnoremap <S-Tab> :bprevious!<CR>
-:nnoremap <C-X> :bp<bar>sp<bar>bn<bar>bd<CR>
-
-
 " fix backspace not working
 set backspace=2
 
@@ -82,14 +76,10 @@ set mouse=a
 set ttymouse=xterm2
 set fillchars+=vert:\▓
 
+set showtabline=2
+nnoremap <tab> :tabnext<CR>
+
 " Asynchronous Lint Engine
 let b:ale_linters = {'javascript': ['eslint']}
 let g:ale_lint_on_save = 1
 
-" autoCreateJsonconfig检测jsconfig.json是否存在并创建
-au BufReadPost,BufNew *.js,*.jsx :call AutoCreateJsconfig()
-
-function! AutoCreateJsconfig()
-		let cmd = system('autoCreateJsconfig')
-		echo cmd
-endfunction

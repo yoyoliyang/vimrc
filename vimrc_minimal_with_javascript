@@ -77,10 +77,6 @@ set number
 set ignorecase
 set tabstop=4
 set guifont=Consolas\ 14
-" split支持鼠标拖拽
-set mouse=a
-set ttymouse=xterm2
-set fillchars+=vert:\▓
 
 " Asynchronous Lint Engine
 let b:ale_linters = {'javascript': ['eslint']}
